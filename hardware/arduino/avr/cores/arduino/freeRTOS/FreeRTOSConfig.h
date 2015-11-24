@@ -91,7 +91,7 @@
 #define configUSE_MALLOC_FAILED_HOOK	1
 #define configMAX_PRIORITIES		    ( ( UBaseType_t ) 4 )
 #define configMINIMAL_STACK_SIZE	    ( ( UBaseType_t ) 85 )
-#define configIDLE_STACK_SIZE	   		( ( UBaseType_t ) 256 )
+#define configIDLE_STACK_SIZE	   		( ( UBaseType_t ) 128 )
 #define configMAX_TASK_NAME_LEN		    ( 8 )
 
 /* Timer definitions. */
