@@ -113,8 +113,8 @@ extern "C" {
  * within FreeRTOSConfig.h.
  */
 
-#ifndef configMINIMAL_STACK_SIZE
-	#error Missing definition:  configMINIMAL_STACK_SIZE must be defined in FreeRTOSConfig.h.  configMINIMAL_STACK_SIZE defines the size (in words) of the stack allocated to the idle task.  Refer to the demo project provided for your port for a suitable value.
+#ifndef configIDLE_STACK_SIZE
+	#error Missing definition:  configIDLE_STACK_SIZE must be defined in FreeRTOSConfig.h.  configIDLE_STACK_SIZE defines the size (in words) of the stack allocated to the idle task.  Refer to the demo project provided for your port for a suitable value.
 #endif
 
 #ifndef configMAX_PRIORITIES
