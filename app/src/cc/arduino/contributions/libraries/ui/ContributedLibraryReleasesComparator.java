@@ -27,32 +27,42 @@
  * the GNU General Public License.
  */
 
-package cc.arduino.contributions.ui;
+package cc.arduino.contributions.libraries.ui;
 
-import cc.arduino.contributions.DownloadableContribution;
-import cc.arduino.contributions.VersionComparator;
+import cc.arduino.contributions.libraries.ContributedLibrary;
 
-import javax.swing.table.AbstractTableModel;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.Comparator;
 
-public abstract class FilteredAbstractTableModel<T> extends AbstractTableModel {
+public class ContributedLibraryReleasesComparator implements Comparator<ContributedLibraryReleases> {
 
-  abstract public void updateIndexFilter(String[] filters, Stream<Predicate<T>> additionalFilters);
+  private final String firstType;
 
-  public static <T extends DownloadableContribution> T getLatestOf(List<T> contribs) {
-    contribs = new LinkedList<>(contribs);
-    final VersionComparator versionComparator = new VersionComparator();
-    Collections.sort(contribs, (contrib1, contrib2) -> versionComparator.compare(contrib1.getParsedVersion(), contrib2.getParsedVersion()));
+  public ContributedLibraryReleasesComparator(String firstType) {
+    this.firstType = firstType;
+  }
 
-    if (contribs.isEmpty()) {
-      return null;
+  @Override
+  public int compare(ContributedLibraryReleases o1, ContributedLibraryReleases o2) {
+    ContributedLibrary lib1 = o1.getLibrary();
+    ContributedLibrary lib2 = o2.getLibrary();
+
+    if (lib1.getTypes() == null || lib2.getTypes() == null) {
+      return compareName(lib1, lib2);
     }
+    if (lib1.getTypes().contains(firstType) && lib2.getTypes().contains(firstType)) {
+      return compareName(lib1, lib2);
+    }
+    if (lib1.getTypes().contains(firstType)) {
+      return -1;
+    }
+    if (lib2.getTypes().contains(firstType)) {
+      return 1;
+    }
+    return compareName(lib1, lib2);
+  }
 
-    return contribs.get(contribs.size() - 1);
+  private int compareName(ContributedLibrary lib1, ContributedLibrary lib2) {
+    return lib1.getName().compareToIgnoreCase(lib2.getName());
   }
 
 }
