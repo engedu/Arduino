@@ -74,22 +74,10 @@
 #include "timers.h"
 #include "StackMacros.h"
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 /*-----------------------------------------------------------*/
-
-extern void serialEventRun(void);
-
-void initVariant(void) __attribute__((flatten));
-
-void vApplicationIdleHook( void ) __attribute__((flatten));
-
-void vApplicationMallocFailedHook( void );
-void vApplicationStackOverflowHook( TaskHandle_t xTask, portCHAR *pcTaskName );
-
-/*-----------------------------------------------------------*/
-/**
- *
+/*
  */
 void initVariant(void)
 {
@@ -104,8 +92,8 @@ void initVariant(void)
 	vApplicationMallocFailedHook(); // possibly we're going to fail trying to initialise heap for the scheduler. Let someone know.
 }
 
-/*-----------------------------------------------------------*/
 
+/*-----------------------------------------------------------*/
 #if defined( configUSE_IDLE_HOOK )
 /*
  * Call the user defined loop() function from within the idle task.
@@ -118,12 +106,12 @@ void initVariant(void)
 void vApplicationIdleHook( void )
 {
 	loop();
-	if (serialEventRun) serialEventRun();
+//	if (serialEventRun) serialEventRun();
 }
 
 #endif /* configUSE_IDLE_HOOK == 1 */
-
 /*-----------------------------------------------------------*/
+
 
 #if defined( configUSE_MALLOC_FAILED_HOOK )
 /*---------------------------------------------------------------------------*\
@@ -183,11 +171,10 @@ void vApplicationMallocFailedHook( void )
 }
 
 #endif /* configUSE_MALLOC_FAILED_HOOK == 1 */
-
 /*-----------------------------------------------------------*/
 
-#if defined( configCHECK_FOR_STACK_OVERFLOW )
 
+#if defined( configCHECK_FOR_STACK_OVERFLOW )
 /*---------------------------------------------------------------------------*\
 Usage:
    called by task system when a stack overflow is noticed

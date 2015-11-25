@@ -17,6 +17,7 @@ extern "C" {
 #include <avr/wdt.h>
 
 #include "FreeRTOS.h"
+#include "task.h"
 
 // System Tick - Scheduler timer
 // Use the Watchdog timer, and choose the rate at which scheduler interrupts will occur.
@@ -32,6 +33,15 @@ extern "C" {
 */
 //	xxx Watchdog Timer is 128kHz nominal, but 120 kHz at 5V DC and 25 degrees is actually more accurate, from data sheet.
 #define configTICK_RATE_HZ		( (TickType_t)( (uint32_t)128000 >> (portUSE_WDTO + 11) ) )  // 2^11 = 2048 WDT scaler for 128kHz Timer
+
+/*-----------------------------------------------------------*/
+
+void initVariant(void); // __attribute__((flatten));
+
+void vApplicationIdleHook( void ); // __attribute__((flatten));
+
+void vApplicationMallocFailedHook( void );
+void vApplicationStackOverflowHook( TaskHandle_t xTask, portCHAR *pcTaskName );
 
 /*-----------------------------------------------------------*/
 
