@@ -29,17 +29,6 @@
 #include <avr/pgmspace.h>
 #include <avr/interrupt.h>
 
-/* FreeRTOS includes. */
-#include "freeRTOS/FreeRTOS.h"
-#include "freeRTOS/task.h"
-#include "freeRTOS/timers.h"
-#include "freeRTOS/StackMacros.h"
-
-#include "freeRTOS/croutine.h"
-#include "freeRTOS/queue.h"
-#include "freeRTOS/semphr.h"
-#include "freeRTOS/event_groups.h"
-
 #include "binary.h"
 
 #ifdef __cplusplus
