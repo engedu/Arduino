@@ -94,8 +94,8 @@
 extern "C" {
 #endif
 
-/* Board (AVR) specific configuration options. */
-#include "freeRTOSBoardDefs.h"
+/* Variant (AVR) specific configuration options. */
+#include "freeRTOSVariant.h"
 
 /* Application specific configuration options. */
 #include "FreeRTOSConfig.h"
