@@ -105,7 +105,7 @@ extern "C" {
 #include "portable.h"
 
 /* Variant (AVR) specific configuration options. */
-#include "freeRTOSVariant.h"
+#include "FreeRTOSVariant.h"
 
 /*
  * Check all the required application specific macros have been defined.
