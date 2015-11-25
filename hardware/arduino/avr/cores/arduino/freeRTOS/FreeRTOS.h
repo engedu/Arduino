@@ -94,9 +94,6 @@
 extern "C" {
 #endif
 
-/* Variant (AVR) specific configuration options. */
-#include "freeRTOSVariant.h"
-
 /* Application specific configuration options. */
 #include "FreeRTOSConfig.h"
 
@@ -106,6 +103,9 @@ extern "C" {
 /* Definitions specific to the port being used. */
 #include "portmacro.h"
 #include "portable.h"
+
+/* Variant (AVR) specific configuration options. */
+#include "freeRTOSVariant.h"
 
 /*
  * Check all the required application specific macros have been defined.
