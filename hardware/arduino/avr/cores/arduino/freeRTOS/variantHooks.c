@@ -89,12 +89,14 @@ void initVariant(void)
 
 	vTaskStartScheduler(); // initialise and run the freeRTOS scheduler. Execution should never return here.
 
-	vApplicationMallocFailedHook(); // possibly we're going to fail trying to initialise heap for the scheduler. Let someone know.
+	vApplicationMallocFailedHook(); // Probably we've failed trying to initialise heap for the scheduler. Let someone know.
 }
 
 
 /*-----------------------------------------------------------*/
-#if defined( configUSE_IDLE_HOOK )
+#if ( configUSE_IDLE_HOOK == 1 )
+
+extern void serialEventRun(void);
 /*
  * Call the user defined loop() function from within the idle task.
  * This allows the application designer to add background functionality
@@ -106,14 +108,14 @@ void initVariant(void)
 void vApplicationIdleHook( void )
 {
 	loop();
-//	if (serialEventRun) serialEventRun();
+	if (serialEventRun) serialEventRun();
 }
 
 #endif /* configUSE_IDLE_HOOK == 1 */
 /*-----------------------------------------------------------*/
 
 
-#if defined( configUSE_MALLOC_FAILED_HOOK )
+#if ( configUSE_MALLOC_FAILED_HOOK == 1 )
 /*---------------------------------------------------------------------------*\
 Usage:
    called by task system when a malloc failure is noticed
@@ -174,7 +176,7 @@ void vApplicationMallocFailedHook( void )
 /*-----------------------------------------------------------*/
 
 
-#if defined( configCHECK_FOR_STACK_OVERFLOW )
+#if ( configCHECK_FOR_STACK_OVERFLOW == 1 )
 /*---------------------------------------------------------------------------*\
 Usage:
    called by task system when a stack overflow is noticed
