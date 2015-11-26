@@ -26,13 +26,3 @@ static void __empty() {
 	// Empty
 }
 void yield(void) __attribute__ ((weak, unused, alias("__empty")));
-
-// Weak empty variant initialization function.
-// May be redefined by variant files.
-void initVariant() __attribute__((weak));
-void initVariant() { }
-
-// Weak empty USB setup function.
-// May be redefined by variant files.
-void setupUSB() __attribute__((weak));
-void setupUSB() { }
