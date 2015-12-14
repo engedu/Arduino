@@ -757,7 +757,9 @@ public class BaseNoGui {
     }
     System.setProperty("java.net.useSystemProxies", "true");
 
-    Runtime.getRuntime().addShutdownHook(new Thread(DeleteFilesOnShutdown.INSTANCE));
+    Thread deleteFilesOnShutdownThread = new Thread(DeleteFilesOnShutdown.INSTANCE);
+    deleteFilesOnShutdownThread.setName("DeleteFilesOnShutdown");
+    Runtime.getRuntime().addShutdownHook(deleteFilesOnShutdownThread);
 
     initPlatform();
 
@@ -971,7 +973,7 @@ public class BaseNoGui {
     }
   }
 
-  static public void initParameters(String args[]) throws IOException {
+  static public void initParameters(String args[]) throws Exception {
     String preferencesFile = null;
 
     // Do a first pass over the commandline arguments, the rest of them

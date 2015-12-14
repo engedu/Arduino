@@ -51,6 +51,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -105,6 +106,8 @@ public class Compiler implements MessageConsumer {
     }
   }
 
+  private static final Pattern ERROR_FORMAT = Pattern.compile("(.+\\.\\w+):(\\d+)(:\\d+)*:\\s*error:\\s*(.*)\\s*", Pattern.MULTILINE | Pattern.DOTALL);
+
   private final String pathToSketch;
   private final SketchData sketch;
   private final String buildPath;
@@ -134,7 +137,7 @@ public class Compiler implements MessageConsumer {
 
     PreferencesMap prefs = loadPreferences(board, platform, aPackage, vidpid);
 
-    MessageConsumerOutputStream out = new MessageConsumerOutputStream(new ProgressAwareMessageConsumer(new I18NAwareMessageConsumer(System.out), progListener), "\n");
+    MessageConsumerOutputStream out = new MessageConsumerOutputStream(new ProgressAwareMessageConsumer(new I18NAwareMessageConsumer(System.out, System.err), progListener), "\n");
     MessageConsumerOutputStream err = new MessageConsumerOutputStream(new I18NAwareMessageConsumer(System.err, Compiler.this), "\n");
 
     callArduinoBuilder(board, platform, aPackage, vidpid, BuilderAction.COMPILE, new PumpStreamHandler(out, err));
@@ -427,6 +430,7 @@ public class Compiler implements MessageConsumer {
       @Override
       protected Thread createPump(InputStream is, OutputStream os, boolean closeWhenExhausted) {
         final Thread result = new Thread(new MyStreamPumper(is, Compiler.this));
+        result.setName("MyStreamPumper Thread");
         result.setDaemon(true);
         return result;
 
@@ -501,8 +505,7 @@ public class Compiler implements MessageConsumer {
       }
     }
 
-    String errorFormat = "(.+\\.\\w+):(\\d+)(:\\d+)*:\\s*error:\\s*(.*)\\s*";
-    String[] pieces = PApplet.match(s, errorFormat);
+    String[] pieces = PApplet.match(s, ERROR_FORMAT);
 
     if (pieces != null) {
       String error = pieces[pieces.length - 1], msg = "";
